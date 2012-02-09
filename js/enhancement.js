@@ -2,7 +2,6 @@ function enhance(con) {
 	
 	// Add you own code to execute something on click
 	var v = new VIE();
-	v.types
 	v.loadSchemaOrg();
 	v.use(new v.StanbolService({url: "http://dev.iks-project.eu/stanbolfull"}));
 	v.analyze({element: jQuery(con)}).using('stanbol').execute().done(function(entities) {
@@ -11,16 +10,19 @@ function enhance(con) {
 		organizations = new Array();
 		var count = 0;
 		_.each(entities, function(entity) {
+			if (!entity.has('http://www.w3.org/2000/01/rdf-schema#label')) {
+			       return;
+			}
 			if (entity.isof("Person")) {
 				persons.push(entity);
 				count++;
 			} else if (entity.isof("Place")) {
 				places.push(entity);
 				count++;
-			} else if (entity.isof("Organization")) {
-				organizations.push(entity);
-				count++;
-			}
+//			} else if (entity.isof("Organisation")) {
+//				organizations.push(entity);
+//				count++;
+//			}
 	    });
 		
 		jQuery('#image_container').empty();
