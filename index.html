@@ -4,6 +4,8 @@
 		<title>IKS related search</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
+		<link href="css/style.css" media="screen" rel="stylesheet" />
+
 	    <!-- jQuery and vie deps -->
 	    <script type="text/javascript" src="lib/jquery-1.7.1.min.js"></script>
 	    <script type="text/javascript" src="lib/jquery-ui-1.8.16.js"></script>
@@ -16,11 +18,11 @@
 		<script type="text/javascript" src="lib/schema.json"></script>
 		<script type="text/javascript" src="lib/wrapper.js"></script>
 		<script type="text/javascript" src="lib/vie.widget.image_search.js"></script>
+		<script type="text/javascript" src="js/enhancement.js"></script>
 
 		<!-- TinyMCE -->
 		<script type="text/javascript" src="tiny_mce/tiny_mce.js"></script>
 		<script type="text/javascript">
-
 			tinyMCE.init({
 				// General options
 				mode : "exact",
@@ -45,112 +47,12 @@
 					});
 				}
 			});
-			
-			function enhance(con) {
-				
-				// Add you own code to execute something on click
-				var v = new VIE();
-				v.types
-				v.loadSchemaOrg();
-				v.use(new v.StanbolService({url: "http://dev.iks-project.eu/stanbolfull"}));
-				v.analyze({element: jQuery(con)}).using('stanbol').execute().done(function(entities) {
-					goods = new Array();
-					_.each(entities, function(entity) {
-						if (entity.isof("Person") || entity.isof("Place")) {
-							goods.push(entity);
-						}
-				    });
-					jQuery('#image_container').empty();
-					imageSearch(v, goods);
-				});
-				// this.execCommand("mceInsertContent",false,'<b>Test</b>');
-			}
-
-			function imageSearch(v, goods) {
-				
-				for (var j = 0; j < goods.length; j++) {
-
-					var cntId = "imgCnt_" + j;
- 					jQuery('#image_container').append('<div id="' + cntId + '"></div>');
-
-		            // set-up of the Image-widget
-		            jQuery("#" + cntId).vieImageSearch({
-		                vie    : v,
-						// render : function(data) { // render images }
-		                bin_size: 4,
-		                services : {
-		                    flickr : {
-		                        api_key : "ffd6f2fc41249feeddd8e62a531dc83e",
-		                    	use: false
-		                    },
-		                    gimage : {
-		                        use: true
-		                    }
-		                }
-		            });
-		            var name = extractString(goods[j], ["rdfs:label", "name"], "en");
-		            jQuery("#" + cntId).append("<p><b>" + name + "</b></p>");
- 					jQuery("#" + cntId).vieImageSearch({
-						entity : goods[j].getSubject() // uri
-					});
-				}
-			}
-			
-			function extractString (entity, attrs, lang) {
-		        if (entity && typeof entity !== "string") {
-		            var possibleAttrs = (_.isArray(attrs))? attrs : [ attrs ];
-		            for (var p = 0; p < possibleAttrs.length; p++) {
-		                var attr = possibleAttrs[p];
-		                if (entity.has(attr)) {
-		                    var value = entity.get(attr);
-		                    if (jQuery.isArray(value) && value.length > 0) {
-		                        for ( var i = 0; i < value.length; i++) {
-		                            if (value[i].indexOf('@' + lang) > -1) {
-		                                value = value[i];
-		                                break;
-		                            }
-		                        }
-		                        if (jQuery.isArray(value)) // <-- if it is *still* an array, your language was not found, hence, return undefined
-		                            value = undefined; // just take the first
-		                    }
-		                    value = (value)? value.replace(/"/g, "").replace(/@[a-z]+/, '').trim() : value;
-		                    return value;
-		                }
-		            }
-		        }
-		        return undefined;
-		    }
-
 		</script>
 		<!-- /TinyMCE -->
-		
-		<!-- Styles -->
-		<link href="css/style.css" media="screen" rel="stylesheet" />
-		<style>
-			#wrapper {
-				width: 450px; 
-				padding: 25px;
-				 margin-top: 25px;
-			}
-			#content {
-			}
-	        #image_container {
-	        	margin-top: 25px;
-	        }
-	        #image_container a img {
-	            box-shadow: 0px 0px 10px #555;
-	            margin: 1em 1em;
-	            width: 6em;
-	            height: 6em;
-	        }
-	        
-    	</style>
-    	<!-- /Styles -->
-    	
 	</head>
 	<body role="application">
-		<div id="wrapper" class="wrapper" style="">
-			<div id="content" name="content" class="tinymce" style="width: 100%">
+		<div id="wrapper" class="wrapper" >
+			<div id="content" class="tinymce">
 				<p>Steven Paul Jobs was an American businessman and inventor widely
 					recognized as a charismatic pioneer of the personal computer
 					revolution. He was co-founder, chairman, and chief executive
@@ -159,7 +61,7 @@
 					board of directors of The Walt Disney Company in 2006, following the
 					acquisition of Pixar by Disney.</p>
 				<p>WASHINGTON, D.C. The House has passed a short-term spending bill that keeps the government running for six weeks and buys time for future budget negotiations. The 352-66 vote sends the measure to President Barack Obama in time to avert a government shutdown at midnight. The legislation gives Congress and the White House more time to iron out their differences on a pile of unfinished budget work totaling more than $1 trillion. It also ends a fight over whether some aid for victims of Hurricane Irene and other natural disasters should have been offset by cuts elsewhere.</p>
-				<p>>CUPERTINO, California It's the first time in years that Apple has unveiled a major new product without Steve Jobs presiding over the announcement. The company's new CEO, Tim Cook, was the one introducing the company's new iPhone today -- faster and more powerful than the previous version. Cook took over as CEO after Jobs, who has been battling health problems, resigned in August.</p>
+				<p>CUPERTINO, California It's the first time in years that Apple has unveiled a major new product without Steve Jobs presiding over the announcement. The company's new CEO, Tim Cook, was the one introducing the company's new iPhone today -- faster and more powerful than the previous version. Cook took over as CEO after Jobs, who has been battling health problems, resigned in August.</p>
 			</div>
 			<div id="image_container"></div>
 		</div>
