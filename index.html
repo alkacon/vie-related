@@ -39,20 +39,20 @@
 						onclick : function() {
 							// Add you own code to execute something on click
 							ed.focus();
-							enhance();
+							enhance(ed.getContent());
 						}
 					});
 				}
 			});
 			
-			function enhance() {
+			function enhance(con) {
 				
 				// Add you own code to execute something on click
 				var v = new VIE();
 				v.types
 				v.loadSchemaOrg();
 				v.use(new v.StanbolService({url: "http://dev.iks-project.eu/stanbolfull"}));
-				v.analyze({element: jQuery('#content')}).using('stanbol').execute().done(function(entities) {
+				v.analyze({element: jQuery(con)}).using('stanbol').execute().done(function(entities) {
 					goods = new Array();
 					_.each(entities, function(entity) {
 						if (entity.isof("Person") || entity.isof("Place")) {
