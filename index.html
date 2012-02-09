@@ -20,6 +20,7 @@
 		<!-- TinyMCE -->
 		<script type="text/javascript" src="tiny_mce/tiny_mce.js"></script>
 		<script type="text/javascript">
+
 			tinyMCE.init({
 				// General options
 				mode : "exact",
@@ -59,8 +60,8 @@
 							goods.push(entity);
 						}
 				    });
+					jQuery('#image_container').empty();
 					imageSearch(v, goods);
-					// printResults(goods);
 				});
 				// this.execCommand("mceInsertContent",false,'<b>Test</b>');
 			}
@@ -68,8 +69,8 @@
 			function imageSearch(v, goods) {
 				
 				for (var j = 0; j < goods.length; j++) {
-					
- 					var cntId = "imgCnt_" + j;
+
+					var cntId = "imgCnt_" + j;
  					jQuery('#image_container').append('<div id="' + cntId + '"></div>');
 
 		            // set-up of the Image-widget
@@ -87,46 +88,54 @@
 		                    }
 		                }
 		            });
+		            var name = extractString(goods[j], ["rdfs:label", "name"], "en");
+		            jQuery("#" + cntId).append("<p><b>" + name + "</b></p>");
  					jQuery("#" + cntId).vieImageSearch({
 						entity : goods[j].getSubject() // uri
 					});
 				}
 			}
-
 			
-			function printResults(goods) {
-				jQuery('#results').empty();
-				for (var i = 0; i < goods.length; i++) {
-					var entity = goods[i];
-					if (entity.has("name")) {
-						var label;
-						var name = entity.get("name");
-                        if ($.isArray(name) && name.length > 0) {
-                        	for (var j = 0; j < name.length; j++) {
-                        		var n = name[j];
-                        		if (n.indexOf("@" + 'en') > -1) {
-                        			label = n;
-                        		}
-                        	}
-                        }
-						if (label && label.indexOf("@" + 'en') > -1) {
-							label = label.replace(/(^\"*|\"*@..$)/g, "");
-							if (entity.isof("Person")) {
-								jQuery('#results').append(jQuery('<p>Person (' + i + '/' + j + '): ' + label + '</p>'));
-							} else if (entity.isof("Place")) {
-								jQuery('#results').append(jQuery('<p>Place (' + i + '/' + j + '): ' + label + '</p>'));
-							}
-						}
-					}
-				}
-			}
+			function extractString (entity, attrs, lang) {
+		        if (entity && typeof entity !== "string") {
+		            var possibleAttrs = (_.isArray(attrs))? attrs : [ attrs ];
+		            for (var p = 0; p < possibleAttrs.length; p++) {
+		                var attr = possibleAttrs[p];
+		                if (entity.has(attr)) {
+		                    var value = entity.get(attr);
+		                    if (jQuery.isArray(value) && value.length > 0) {
+		                        for ( var i = 0; i < value.length; i++) {
+		                            if (value[i].indexOf('@' + lang) > -1) {
+		                                value = value[i];
+		                                break;
+		                            }
+		                        }
+		                        if (jQuery.isArray(value)) // <-- if it is *still* an array, your language was not found, hence, return undefined
+		                            value = undefined; // just take the first
+		                    }
+		                    value = (value)? value.replace(/"/g, "").replace(/@[a-z]+/, '').trim() : value;
+		                    return value;
+		                }
+		            }
+		        }
+		        return undefined;
+		    }
+
 		</script>
 		<!-- /TinyMCE -->
 		
 		<!-- Styles -->
 		<link href="css/style.css" media="screen" rel="stylesheet" />
 		<style>
+			#wrapper {
+				width: 450px; 
+				padding: 25px;
+				 margin-top: 25px;
+			}
+			#content {
+			}
 	        #image_container {
+	        	margin-top: 25px;
 	        }
 	        #image_container a img {
 	            box-shadow: 0px 0px 10px #555;
@@ -134,12 +143,13 @@
 	            width: 6em;
 	            height: 6em;
 	        }
+	        
     	</style>
     	<!-- /Styles -->
     	
 	</head>
 	<body role="application">
-		<div id="wrapper" class="wrapper" style="width: 450px; padding: 25px; margin-top: 25px;">
+		<div id="wrapper" class="wrapper" style="">
 			<div id="content" name="content" class="tinymce" style="width: 100%">
 				<p>Steven Paul Jobs was an American businessman and inventor widely
 					recognized as a charismatic pioneer of the personal computer
@@ -151,7 +161,6 @@
 				<p>WASHINGTON, D.C. The House has passed a short-term spending bill that keeps the government running for six weeks and buys time for future budget negotiations. The 352-66 vote sends the measure to President Barack Obama in time to avert a government shutdown at midnight. The legislation gives Congress and the White House more time to iron out their differences on a pile of unfinished budget work totaling more than $1 trillion. It also ends a fight over whether some aid for victims of Hurricane Irene and other natural disasters should have been offset by cuts elsewhere.</p>
 				<p>>CUPERTINO, California It's the first time in years that Apple has unveiled a major new product without Steve Jobs presiding over the announcement. The company's new CEO, Tim Cook, was the one introducing the company's new iPhone today -- faster and more powerful than the previous version. Cook took over as CEO after Jobs, who has been battling health problems, resigned in August.</p>
 			</div>
-			<div id="results"></div>
 			<div id="image_container"></div>
 		</div>
 	</body>
