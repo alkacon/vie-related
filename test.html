@@ -12,6 +12,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         var vie = new VIE();
+        vie.namespaces.base("http://schema.org/");
         vie.loadSchema("http://schema.rdfs.org/all.json", {
             baseNS : "http://schema.org/",
             succes : function() {
@@ -37,8 +38,15 @@
                     });
                     test = false;
                 }
-                if (entity.isof("Person") || entity.isof("Organization") || entity.isof("Place")) {
-                    console.log(entity);
+                if (entity.isof("Person")) {
+                    log.console("Person: ");
+                    log.console(entity);
+                } else if (entity.isof("Place")) {
+                    log.console("Place: ");
+                    log.console(entity);
+                } else if (entity.isof("Organization")) {
+                    log.console("Organization: ");
+                    log.console(entity);
                 }
             });
         });
