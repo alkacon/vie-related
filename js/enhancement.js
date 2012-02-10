@@ -1,6 +1,4 @@
 function enhance(con) {
-
-    // Add you own code to execute something on click
     var v = new VIE();
     v.loadSchema("http://schema.rdfs.org/all.json", {
         baseNS : "http://schema.org/",
@@ -15,7 +13,7 @@ function enhance(con) {
         url : "http://dev.iks-project.eu/stanbolfull"
     }));
     v.analyze({
-        element : jQuery(con)
+        element : jQuery('#content')
     }).using('stanbol').execute().done(function(entities) {
         persons = new Array();
         places = new Array();
@@ -36,17 +34,14 @@ function enhance(con) {
                 count++;
             }
         });
-
         jQuery('#image_container').empty();
         if (count == 0) {
-            jQuery('#image_container')
-                    .append("<p><b>No Persons or Places found.</b></p>")
+            jQuery('#image_container').append("<p><b>No Persons or Places found.</b></p>")
         } else {
             goods = [ persons, places, organizations ];
             imageSearch(v, goods);
         }
     });
-    // this.execCommand("mceInsertContent",false,'<b>Test</b>');
 }
 
 function imageSearch(v, goods) {
@@ -63,15 +58,13 @@ function imageSearch(v, goods) {
                 jQuery("#image_container").append("<p><b>Places:</b></p>")
             } else if (i == 2) {
                 // organizations
-                jQuery("#image_container")
-                        .append("<p><b>Organizations:</b></p>")
+                jQuery("#image_container").append("<p><b>Organizations:</b></p>")
             }
             for ( var j = 0; j < currEntities.length; j++) {
 
                 var cntId = "imgCnt_" + count;
                 count++;
-                jQuery('#image_container').append('<div id="' + cntId
-                        + '"></div>');
+                jQuery('#image_container').append('<div id="' + cntId + '"></div>');
                 // set-up of the Image-widget
                 jQuery("#" + cntId).vieImageSearch({
                     vie : v,
@@ -87,8 +80,7 @@ function imageSearch(v, goods) {
                         }
                     }
                 });
-                var name = extractString(currEntities[j], [ "rdfs:label",
-                        "name" ], "en");
+                var name = extractString(currEntities[j], [ "rdfs:label", "name" ], "en");
                 jQuery("#" + cntId).append("<p>" + name + "</p>");
                 jQuery("#" + cntId).vieImageSearch({
                     entity : currEntities[j].getSubject()
@@ -117,8 +109,7 @@ function extractString(entity, attrs, lang) {
                         // if it is still an array, your language was not found
                         value = undefined;
                 }
-                value = (value) ? value.replace(/"/g, "")
-                        .replace(/@[a-z]+/, '').trim() : value;
+                value = (value) ? value.replace(/"/g, "").replace(/@[a-z]+/, '').trim() : value;
                 return value;
             }
         }
