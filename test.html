@@ -11,8 +11,8 @@
 <script type="text/javascript" src="lib/vie-latest.debug.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        var v = new VIE();
-        v.loadSchema("http://schema.rdfs.org/all.json", {
+        var vie = new VIE();
+        vie.loadSchema("http://schema.rdfs.org/all.json", {
             baseNS : "http://schema.org/",
             succes : function() {
                 console.log("success");
@@ -21,14 +21,23 @@
                 console.warn(msg);
             }
         });
-        v.use(new v.StanbolService({
+        vie.use(new vie.StanbolService({
             url : "http://dev.iks-project.eu/stanbolfull"
         }));
-        v.analyze({
+        vie.analyze({
             element : jQuery('#content')
         }).using('stanbol').execute().done(function(entities) {
+            var types = this.vie.types.list();
+            var test = true;
             _.each(entities, function(entity) {
-                if (entity.isof("Organization")) {
+                if (test) {
+                    var types = entity.vie.types.list();
+                    _.each(types, function(type) {
+                        console.log(type.toString());
+                    });
+                    test = false;
+                }
+                if (entity.isof("Person") || entity.isof("Organization") || entity.isof("Place")) {
                     console.log(entity);
                 }
             });
