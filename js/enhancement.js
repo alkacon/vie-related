@@ -19,7 +19,7 @@ function enhance(con) {
 			} else if (entity.isof("Place")) {
 				places.push(entity);
 				count++;
-			} else if (entity.isof("Organisation")) {
+			} else if (entity.isof("Organization")) {
 				organizations.push(entity);
 				count++;
 			}
