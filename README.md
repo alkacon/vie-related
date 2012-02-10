@@ -3,7 +3,7 @@
 `Readme version : alpha (2012)`
 
 
-# **Google Web Toolkit wrapper for the Vienna IKS Editables**
+# **VIE-RELATED**
 
 
 #### Powered by:
@@ -20,7 +20,7 @@ OpenCms from Alkacon Software is a professional content management system that h
 
 Interactive Knowledge Stack ([IKS](http://www.iks-project.eu/)) is an EU funded project bringing semantic technologies (capabilities) to content management systems. Alkacon Software is an industrial partner in the IKS project.
 
-> "IKS now provides the Vienna IKS Editables (VIE), a JavaScript based software component to semantically enhance and edit web pages inline through annotations. IKS also provides Apache Stanbol, a reusable set of software components that are meant to be accessed over RESTful interfaces to provide semantic services for content management. Both the VIE and Stanbol components have been developed as part of the IKS project over the last 2 years and are now close a release version."
+IKS now provides the Vienna IKS Editables (VIE), a JavaScript library for implementing semantic interaction in web applications decoupled from the underlying content management system. IKS also provides Apache Stanbol, a reusable set of software components that are meant to be accessed over RESTful interfaces to provide semantic services for content management. Both the VIE and Stanbol components have been developed as part of the IKS project over the last 2 years and are now close a release version.
 
 
 ## By adopting the IKS software stack, Alkacon plans to achieve the following goals for OpenCms:
@@ -30,67 +30,40 @@ Interactive Knowledge Stack ([IKS](http://www.iks-project.eu/)) is an EU funded 
 3. Support for semantic content enrichment, using VIE as frontend and Stanbol as backend.
 
 
-## What is VIE-GWT?
 
-<b>VIE-GWT</b> is a wrapper implementation (written in Java) around the VIE JavaScript library. It makes the VIE capabilities accessible for GWT applications without writing native JavaScript. It's open source, completely free and you don't need to register neither for downloading nor for using VIE-GWT.
+## What is VIE-RELATED?
 
-VIE is a JavaScript library for implementing decoupled Content Management Systems and semantic interaction in web applications.
-
-
-## Why bother?
+<b>VIE-RELATED</b> is a sandbox project to test, evaluate and prove client software components provided by the IKS software stack.
 
 #### Motivation
 
-To provide content managers with a modern and easy to use web 2.0 user interface OpenCms uses the Google Web Toolkit (GWT) for client side programming. In order to minimize development time, code maintaining costs and also to increase code transparency, Alkacon will stay with GWT and Java technology. Therefore Alkacon don't wants to write native JavaScript code that is part of the OpenCms core system.
-
-#### Developing
-
-To integrate the VIE capabilities into OpenCms, Alkacon develops a GWT wrapper around the VIE JavaScript library. This is a common approach to provide access to feature-rich native JavaScript widget libraries in GWT, for example used for projects like "Ext GWT", "Smart GWT" and others.
+Having a playground to evaluate possible technologies that can potentially integrated into a future version of OpenCms.
 
 #### Benefit
 
-If you want to enhance your Java based web-application for semantic capabilities and you quarrel with writing native JavaScript VIE-GWT will help you.
+Hosting a project that serves as test environment on online repository like github makes it easier to develop and to share results with external parties.
+
+#### Current features
+
+- Getting google flickr images that are related to the written text by only one click and its integration into TinyMCE
+
+#### Upcoming features
+
+- Getting related content that is stored in OpenCms by only one click and its integration into TinyMCE
+- SEO by using schema.org annotated content inside OpenCms
 
 
-#### Features
+## Getting started
 
-- RDFa parsing (content 	analysis)
-- Usage of semantic widgets (content interaction)
-- Entity manipulation (data modification)
-- Easy connectivity of RESTful Services (server communication)
-
-
-## Implementation design for the VIE-GWT
-
-Alkacon aims to develop a VIE-GWT wrapper independent from OpenCms and enables a Java / GWT developer to make full use of the VIE capabilities without knowledge about the JavaScript internals of VIE.
-
-In general there are a number of possible approaches when creating a wrapper for an existing JavaScript API using the GWT:
-
-- JavaScript Native Interface (JSNI)
-- JavaScriptObject overlays
-- JavaScript InterOp library
-- GWT Linker extensions
-- GWT Generators
-- and maybe more. 
-
-VIE-GWT (alpha version) uses the JavaScript Native Interface (JSNI) and the JavaScriptObject overlays for implementation.
-
-
-## Getting started (coming soon ...)
-
-#### Requirements
-#### Installation
-#### Documentation
-#### Important known problems
+- Download the whole project as ZIP-File and open the index.html in the root directory
 
 
 ## Related links
 
+- [acacia project on GitHub](https://github.com/alkacon/acacia)
 - [VIE-GWT project on GitHub](https://github.com/alkacon/vie-gwt)
 - [VIE project website](http://viejs.org/)
-- [Editable VIE Widgets](http://wiki.iks-project.eu/index.php/VIE/Widgets#Editable_Widgets)
 - [Apache Stanbol project website](http://incubator.apache.org/stanbol/)
-- [Backbone local storage](http://documentcloud.github.com/backbone/docs/backbone-localstorage.html)
 
 
 ## Contact: Alkacon Software GmbH - The OpenCms Experts
