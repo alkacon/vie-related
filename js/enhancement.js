@@ -1,47 +1,51 @@
 function enhance(con) {
     var v = new VIE();
+    v.namespaces.base("http://schema.org/");
     v.loadSchema("http://schema.rdfs.org/all.json", {
         baseNS : "http://schema.org/",
-        succes : function() {
-            console.log("success");
+        success : function() {
+            onSchemaLoadSuccess();
         },
         error : function(msg) {
             console.warn(msg);
         }
     });
-    v.use(new v.StanbolService({
-        url : "http://dev.iks-project.eu/stanbolfull"
-    }));
-    v.analyze({
-        element : jQuery('#content')
-    }).using('stanbol').execute().done(function(entities) {
-        persons = new Array();
-        places = new Array();
-        organizations = new Array();
-        var count = 0;
-        _.each(entities, function(entity) {
-            if (!entity.has('http://www.w3.org/2000/01/rdf-schema#label')) {
-                return;
-            }
-            if (entity.isof("Person")) {
-                persons.push(entity);
-                count++;
-            } else if (entity.isof("Place")) {
-                places.push(entity);
-                count++;
-            } else if (entity.isof("Organization")) {
-                organizations.push(entity);
-                count++;
+    
+    function onSchemaLoadSuccess() {
+        v.use(new v.StanbolService({
+            url : "http://dev.iks-project.eu/stanbolfull"
+        }));
+        v.analyze({
+            element : jQuery('#content')
+        }).using('stanbol').execute().done(function(entities) {
+            persons = new Array();
+            places = new Array();
+            organizations = new Array();
+            var count = 0;
+            _.each(entities, function(entity) {
+                if (!entity.has('http://www.w3.org/2000/01/rdf-schema#label')) {
+                    return;
+                }
+                if (entity.isof("dbpedia:Person")) {
+                    persons.push(entity);
+                    count++;
+                } else if (entity.isof("dbpedia:Place")) {
+                    places.push(entity);
+                    count++;
+                } else if (entity.isof("dbpedia:Company")) {
+                    organizations.push(entity);
+                    count++;
+                }
+            });
+            jQuery('#image_container').empty();
+            if (count == 0) {
+                jQuery('#image_container').append("<p><b>No Persons or Places found.</b></p>")
+            } else {
+                goods = [ persons, places, organizations ];
+                imageSearch(v, goods);
             }
         });
-        jQuery('#image_container').empty();
-        if (count == 0) {
-            jQuery('#image_container').append("<p><b>No Persons or Places found.</b></p>")
-        } else {
-            goods = [ persons, places, organizations ];
-            imageSearch(v, goods);
-        }
-    });
+    }
 }
 
 function imageSearch(v, goods) {
@@ -84,7 +88,6 @@ function imageSearch(v, goods) {
                 jQuery("#" + cntId).append("<p>" + name + "</p>");
                 jQuery("#" + cntId).vieImageSearch({
                     entity : currEntities[j].getSubject()
-                // uri
                 });
             }
         }

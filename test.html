@@ -6,47 +6,29 @@
 <!-- jQuery and vie deps -->
 <script type="text/javascript" src="lib/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="lib/jquery.rdfquery.min.js"></script>
+<script type="text/javascript" src="lib/schema.json"></script>
 <script type="text/javascript" src="lib/underscore.min.js"></script>
 <script type="text/javascript" src="lib/backbone.min.js"></script>
 <script type="text/javascript" src="lib/vie-latest.debug.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         var vie = new VIE();
-        vie.namespaces.base("http://schema.org/");
-        vie.loadSchema("http://schema.rdfs.org/all.json", {
-            baseNS : "http://schema.org/",
-            succes : function() {
-                console.log("success");
-            },
-            error : function(msg) {
-                console.warn(msg);
-            }
-        });
         vie.use(new vie.StanbolService({
             url : "http://dev.iks-project.eu/stanbolfull"
         }));
         vie.analyze({
             element : jQuery('#content')
         }).using('stanbol').execute().done(function(entities) {
-            var types = this.vie.types.list();
-            var test = true;
             _.each(entities, function(entity) {
-                if (test) {
-                    var types = entity.vie.types.list();
-                    _.each(types, function(type) {
-                        console.log(type.toString());
-                    });
-                    test = false;
-                }
-                if (entity.isof("Person")) {
-                    log.console("Person: ");
-                    log.console(entity);
-                } else if (entity.isof("Place")) {
-                    log.console("Place: ");
-                    log.console(entity);
-                } else if (entity.isof("Organization")) {
-                    log.console("Organization: ");
-                    log.console(entity);
+                if (entity.isof("dbpedia:Person")) {
+                    console.log("Person: ");
+                    console.log(entity);
+                } else if (entity.isof("dbpedia:Company")) {
+                    console.log("Company: ");
+                    console.log(entity);
+                } else if (entity.isof("dbpedia:Place")) {
+                    console.log("Place: ");
+                    console.log(entity);
                 }
             });
         });
