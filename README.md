@@ -41,7 +41,7 @@ Having a playground to evaluate possible technologies that can potentially integ
 
 #### Benefit
 
-Hosting a project that serves as test environment on online repository like github makes it easier to develop and to share results with external parties.
+Hosting a project that serves as test environment on github makes it easier to develop and to share results with external parties.
 
 #### Current features
 
@@ -50,12 +50,12 @@ Hosting a project that serves as test environment on online repository like gith
 #### Upcoming features
 
 - Getting related content that is stored in OpenCms by only one click and its integration into TinyMCE
-- SEO by using schema.org annotated content inside OpenCms
+- SEO by using schema.org annotated content for delivered web pages
 
 
 ## Getting started
 
-- Download the whole project as ZIP-File and open the index.html in the root directory
+Download the projects ZIP-File and open the index.html in the root directory
 
 
 ## Related links
