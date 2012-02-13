@@ -1,5 +1,5 @@
 function enhance(con) {
-    var v = new VIE();
+    v = new VIE();
     v.namespaces.base("http://schema.org/");
     v.loadSchema("http://schema.rdfs.org/all.json", {
         baseNS : "http://schema.org/",
@@ -12,9 +12,13 @@ function enhance(con) {
     });
     
     function onSchemaLoadSuccess() {
-        v.use(new v.StanbolService({
+        var stanbol = new v.StanbolService({
             url : "http://dev.iks-project.eu/stanbolfull"
-        }));
+        });
+        v.use(stanbol);
+        
+        stanbol.rules = jQuery.merge(stanbol.rules, getAdditionalRules(stanbol));
+        
         v.analyze({
             element : jQuery('#content')
         }).using('stanbol').execute().done(function(entities) {
@@ -26,13 +30,13 @@ function enhance(con) {
                 if (!entity.has('http://www.w3.org/2000/01/rdf-schema#label')) {
                     return;
                 }
-                if (entity.isof("dbpedia:Person")) {
+                if (entity.isof("Person")) {
                     persons.push(entity);
                     count++;
-                } else if (entity.isof("dbpedia:Place")) {
+                } else if (entity.isof("Place")) {
                     places.push(entity);
                     count++;
-                } else if (entity.isof("dbpedia:Company")) {
+                } else if (entity.isof("Organization")) {
                     organizations.push(entity);
                     count++;
                 }
@@ -45,6 +49,35 @@ function enhance(con) {
                 imageSearch(v, goods);
             }
         });
+    };
+    
+    function getAdditionalRules (service) {
+        var res = [
+            // rule(s) to transform a dbpedia:Person into a VIE:Person
+             {
+                'left' : [
+                    '?subject a dbpedia:Company',
+                    '?subject rdfs:label ?label'
+                 ],
+                 'right': function(ns){
+                     return function(){
+                         return [
+                             jQuery.rdf.triple(this.subject.toString(),
+                                 'a',
+                                 '<' + ns.base() + 'Organization>', {
+                                     namespaces: ns.toObj()
+                                 }),
+                             jQuery.rdf.triple(this.subject.toString(),
+                                 '<' + ns.base() + 'name>',
+                                 this.label, {
+                                     namespaces: ns.toObj()
+                                 })
+                             ];
+                     };
+                 }(service.vie.namespaces)
+             }];
+             
+         return res;
     }
 }
 
