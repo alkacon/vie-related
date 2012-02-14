@@ -4,10 +4,11 @@
 <title>IKS related search</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <link href="css/style.css" media="screen" rel="stylesheet" />
+<link type="text/css" href="css/redmond/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
 
 <!-- jQuery and vie deps -->
 <script type="text/javascript" src="lib/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="lib/jquery-ui-1.8.16.js"></script>
+<script type="text/javascript" src="lib/jquery-ui-1.8.17.custom.min.js"></script>
 <script type="text/javascript" src="lib/jquery.rdfquery.min.js"></script>
 <script type="text/javascript" src="lib/underscore.min.js"></script>
 <script type="text/javascript" src="lib/backbone.min.js"></script>
@@ -36,8 +37,8 @@
                 setup : function(ed) {
                     // Add a custom button
                     ed.addButton('mybutton', {
-                        title : 'My button',
-                        image : 'img/search.png',
+                        title : 'Search images',
+                        image : 'images/search.png',
                         onclick : function() {
                             ed.focus();
                             enhance(ed.getContent());
@@ -75,7 +76,6 @@
 				powerful than the previous version. Cook took over as CEO after
 				Jobs, who has been battling health problems, resigned in August.</p>
 		</div>
-		<div id="image_container"></div>
 	</div>
 </body>
 </html>

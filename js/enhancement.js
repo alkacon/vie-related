@@ -67,6 +67,27 @@ function enhance(con) {
 function imageSearch(v, goods) {
 
 	var count = 0;
+	if (goods.length > 0 && goods[0].length > 0) {
+		var wrapper = jQuery('#wrapper');
+		var left = wrapper.offset().left + wrapper.outerWidth() + 30;
+		var top = wrapper.offset().top;
+		wrapper.append('<div id="image_container"></div>');
+		jQuery('#image_container').html('').dialog({
+			title : 'Basic Dialog',
+			autoOpen : false,
+			closeOnEscape : true,
+			height : 530,
+			maxHeight : 530,
+			width : 540,
+			maxWidth : 540,
+			position : [ left, top ],
+			resizable : false,
+			close : function(event, ui) {
+				jQuery('#image_container').remove();
+			}
+		});
+	}
+
 	for ( var i = 0; i < goods.length; i++) {
 		currEntities = goods[i];
 		if (currEntities.length > 0) {
@@ -115,6 +136,10 @@ function imageSearch(v, goods) {
 				});
 			}
 		}
+	}
+
+	if (goods.length > 0 && goods[0].length > 0) {
+		jQuery('#image_container').dialog('open');
 	}
 }
 
