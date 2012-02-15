@@ -25,45 +25,52 @@ function extractString(entity, attrs, lang) {
 }
 
 function getAdditionalRules(service) {
-	var res = [
-	// rule(s) to transform a dbpedia:Company into a VIE:Organization
-	{
-		'left' : [ '?subject a dbpedia:Company', '?subject rdfs:label ?label' ],
-		'right' : function(ns) {
-			return function() {
-				return [ jQuery.rdf.triple(this.subject.toString(), 'a', '<' + ns.base() + 'Organization>', {
-					namespaces : ns.toObj()
-				}), jQuery.rdf.triple(this.subject.toString(), '<' + ns.base() + 'name>', this.label, {
-					namespaces : ns.toObj()
-				}) ];
-			};
-		}(service.vie.namespaces)
-	},
-	// rule(s) to transform a dbpedia:Event into a VIE:Event
-	{
-		'left' : [ '?subject a dbpedia:Event', '?subject rdfs:label ?label' ],
-		'right' : function(ns) {
-			return function() {
-				return [ jQuery.rdf.triple(this.subject.toString(), 'a', '<' + ns.base() + 'Event>', {
-					namespaces : ns.toObj()
-				}), jQuery.rdf.triple(this.subject.toString(), '<' + ns.base() + 'name>', this.label.toString(), {
-					namespaces : ns.toObj()
-				}) ];
-			};
-		}(service.vie.namespaces)
-	},
-	// rule(s) to transform a dbpedia:Film into a VIE:Movie
-	{
-		'left' : [ '?subject a dbpedia:Film', '?subject rdfs:label ?label' ],
-		'right' : function(ns) {
-			return function() {
-				return [ jQuery.rdf.triple(this.subject.toString(), 'a', '<' + ns.base() + 'Movie>', {
-					namespaces : ns.toObj()
-				}), jQuery.rdf.triple(this.subject.toString(), '<' + ns.base() + 'name>', this.label.toString(), {
-					namespaces : ns.toObj()
-				}) ];
-			};
-		}(service.vie.namespaces)
-	}, ];
-	return res;
+
+	mapping = {
+			'Work'              : 'CreativeWork',
+			'Film'              : 'Movie',
+			'TelevisionEpisode' : 'TVEpisode',
+			'TelevisionShow'    : 'TVSeries', // not listed as equivalent class on dbpedia.org
+			'Website'           : 'WebPage',
+			'Painting'          : 'Painting',
+			'Sculpture'         : 'Sculpture',
+			'Event'             : 'Event',
+			'SportsEvent'       : 'SportsEvent',
+			'MusicFestival'     : 'Festival',
+			'FilmFestival'      : 'Festival',
+			'Place'             : 'Place',
+			'Continent'         : 'Continent',
+			'Country'           : 'Country',
+			'City'              : 'City',
+			'Airport'           : 'Airport',
+			'Station'           : 'TrainStation', // not listed as equivalent class on dbpedia.org
+			'Hospital'          : 'GovernmentBuilding',
+			'Mountain'          : 'Mountain',
+			'BodyOfWater'       : 'BodyOfWater',
+			'Company'           : 'Organization',
+			'Person'            : 'Person'
+    };
+
+	var additionalRules = new Array();
+	for ( var key in mapping) {
+		var rule = createSimpleRule(key, mapping[key], service);
+		additionalRules.push(rule);
+	}
+	return additionalRules;
+}
+
+function createSimpleRule(key, value, service) {
+	var rule = {
+			'left' : [ '?subject a dbpedia:' + key, '?subject rdfs:label ?label' ],
+			'right' : function(ns) {
+				return function() {
+					return [ jQuery.rdf.triple(this.subject.toString(), 'a', '<' + ns.base() + value + '>', {
+						namespaces : ns.toObj()
+					}), jQuery.rdf.triple(this.subject.toString(), '<' + ns.base() + 'name>', this.label.toString(), {
+						namespaces : ns.toObj()
+					}) ];
+				};
+			}(service.vie.namespaces)
+		};
+	return rule;
 }
