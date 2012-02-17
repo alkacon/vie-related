@@ -1,10 +1,10 @@
-function enhance(con) {
+function enhance(con, element) {
 	v = new VIE();
 	v.namespaces.base("http://schema.org/");
 	v.loadSchema("http://schema.rdfs.org/all.json", {
 		baseNS : "http://schema.org/",
 		success : function() {
-			onLoadSuccess(v, con);
+			onLoadSuccess(v, con, element);
 		},
 		error : function(msg) {
 			console.warn(msg);
@@ -12,7 +12,7 @@ function enhance(con) {
 	});
 }
 
-function onLoadSuccess(v, con) {
+function onLoadSuccess(v, con, element) {
 	var stanbol = new v.StanbolService({
 		url : [ "http://dev.iks-project.eu/stanbolfull", "http://dev.iks-project.eu:8080" ],
 		enhancerUrlPostfix : "/enhancer/chain/dbpedia-keyword"
@@ -49,26 +49,26 @@ function onLoadSuccess(v, con) {
 						goods.movies.push(entity);
 					}
 				});
-				var container = jQuery('#image_container');
+
+				var container = jQuery('<div id="image_container"></div>');
 				if (goods.persons.length == 0 && goods.persons.length == 0 && goods.persons.length == 0
 						&& goods.persons.length == 0 && goods.persons.length == 0 && goods.persons.length == 0) {
 					container.append("<p><b>No Persons or Places found.</b></p>");
 				} else {
 					container.empty();
-					performSearch("Persons", goods.persons, this.vie);
-					performSearch("Cities", goods.cities, this.vie);
-					performSearch("Places", goods.places, this.vie);
-					performSearch("Organizations", goods.orgas, this.vie);
-					performSearch("Events", goods.events, this.vie);
-					performSearch("Movies", goods.movies, this.vie);
-					openResultDialog(container);
+					performSearch("Persons", goods.persons, this.vie, container);
+					performSearch("Cities", goods.cities, this.vie, container);
+					performSearch("Places", goods.places, this.vie, container);
+					performSearch("Organizations", goods.orgas, this.vie, container);
+					performSearch("Events", goods.events, this.vie, container);
+					performSearch("Movies", goods.movies, this.vie, container);
+					openResultDialog(container, element);
 				}
 			});
 }
 
-function performSearch(typeName, entities, v) {
+function performSearch(typeName, entities, v, container) {
 	if (entities.length > 0) {
-		var container = jQuery('#image_container');
 		container.append("<p><b>" + typeName + ":</b></p>");
 		for ( var j = 0; j < entities.length; j++) {
 			var entity = entities[j];
@@ -97,9 +97,10 @@ function performSearch(typeName, entities, v) {
 	}
 }
 
-function openResultDialog(results) {
+function openResultDialog(results, element) {
 
-	var parentElement = jQuery('#wrapper');
+	// container.appendTo(jQuery(element).parent());
+	var parentElement = jQuery(element).parent();
 	var left = parentElement.offset().left + parentElement.outerWidth() + 30;
 	var top = parentElement.offset().top;
 

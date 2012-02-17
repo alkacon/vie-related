@@ -42,7 +42,7 @@
                         image : 'images/search.png',
                         onclick : function() {
                             ed.focus();
-                            enhance(ed.getContent());
+                            enhance(ed.getContent(), ed.getElement());
                          	// this.execCommand("mceInsertContent",false,'<b>Test</b>');
                         }
                     });
@@ -78,7 +78,6 @@
 				Jobs, who has been battling health problems, resigned in August.</p>
 			<p>Pulp Fiction is a great movie.</p>
 		</div>
-		<div id="image_container"></div>
 	</div>
 </body>
 </html>

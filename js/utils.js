@@ -25,36 +25,34 @@ function extractString(entity, attrs, lang) {
 }
 
 function getAdditionalRules(service) {
-
-	mapping = {
-			'Work'              : 'CreativeWork',
-			'Film'              : 'Movie',
-			'TelevisionEpisode' : 'TVEpisode',
-			'TelevisionShow'    : 'TVSeries', // not listed as equivalent class on dbpedia.org
-			'Website'           : 'WebPage',
-			'Painting'          : 'Painting',
-			'Sculpture'         : 'Sculpture',
-			'Event'             : 'Event',
-			'SportsEvent'       : 'SportsEvent',
-			'MusicFestival'     : 'Festival',
-			'FilmFestival'      : 'Festival',
-			'Place'             : 'Place',
-			'Continent'         : 'Continent',
-			'Country'           : 'Country',
-			'City'              : 'City',
-			'Airport'           : 'Airport',
-			'Station'           : 'TrainStation', // not listed as equivalent class on dbpedia.org
-			'Hospital'          : 'GovernmentBuilding',
-			'Mountain'          : 'Mountain',
-			'BodyOfWater'       : 'BodyOfWater',
-			'Company'           : 'Organization',
-			'Person'            : 'Person'
-    };
-
+ 	mapping = {
+		'Work'              : 'CreativeWork',
+		'Film'              : 'Movie',
+		'TelevisionEpisode' : 'TVEpisode',
+		'TelevisionShow'    : 'TVSeries', // not listed as equivalent class on dbpedia.org
+		'Website'           : 'WebPage',
+		'Painting'          : 'Painting',
+		'Sculpture'         : 'Sculpture',
+		'Event'             : 'Event',
+		'SportsEvent'       : 'SportsEvent',
+		'MusicFestival'     : 'Festival',
+		'FilmFestival'      : 'Festival',
+		'Place'             : 'Place',
+		'Continent'         : 'Continent',
+		'Country'           : 'Country',
+		'City'              : 'City',
+		'Airport'           : 'Airport',
+		'Station'           : 'TrainStation', // not listed as equivalent class on dbpedia.org
+		'Hospital'          : 'GovernmentBuilding',
+		'Mountain'          : 'Mountain',
+		'BodyOfWater'       : 'BodyOfWater',
+		'Company'           : 'Organization',
+		'Person'            : 'Person'
+     };
+			
 	var additionalRules = new Array();
 	for ( var key in mapping) {
-		var rule = createSimpleRule(key, mapping[key], service);
-		additionalRules.push(rule);
+		additionalRules.push(createSimpleRule(key, mapping[key], service));
 	}
 	return additionalRules;
 }
