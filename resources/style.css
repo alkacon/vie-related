@@ -37,6 +37,10 @@ body {
     color: #333333;
 }
 
+span.mceIcon.mce_imageSearchButton {
+	background:url('search_icon.gif');
+}
+
 #wrapper {
   width: 450px; 
   margin: 40px auto;
