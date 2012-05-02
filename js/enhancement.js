@@ -14,15 +14,12 @@ function enhance(con, element) {
 
 function onLoadSuccess(v, con, element) {
 
-	var stanbol = new v.StanbolService({
-		url : [ "http://dev.iks-project.eu/stanbolfull", "http://dev.iks-project.eu:8080" ]
-	});
+    console.log("Start analyzing");
+	var stanbol = new v.StanbolService({ url : [ "http://dev.iks-project.eu:8080" ] });
 	v.use(stanbol);
-	stanbol.rules = jQuery.merge(stanbol.rules, Util.getAdditionalRules(stanbol));
-	v.analyze({
-		element : jQuery(con)
-	}).using('stanbol').execute().done(
-	
+	stanbol.rules = v.jQuery.merge(stanbol.rules, getAdditionalRules(stanbol.vie));
+	v.analyze({ element : v.jQuery(con) }).using('stanbol').execute().done(
+
 			function(entities) {
 				
 				var goods = {
@@ -60,7 +57,7 @@ function onLoadSuccess(v, con, element) {
 					}
 				});
 
-				var container = jQuery('<div id="image_container"></div>');
+				var container = v.jQuery('<div id="image_container"></div>');
 				if (goods.persons.length == 0
 					&& goods.cities.length == 0 
 					&& goods.places.length == 0
@@ -78,9 +75,8 @@ function onLoadSuccess(v, con, element) {
 					performGoogleFlickrImageSearch("Events", goods.events, this.vie, container);
 					performGoogleFlickrImageSearch("Movies", goods.movies, this.vie, container);
 					performDbpediaDepictionSearch("Species", goods.species, this.vie, container);
-					openResultDialog(container, element);
+					openResultDialog(container, element, v);
 				}
-
 		});
 }
 
@@ -92,7 +88,7 @@ function performGoogleFlickrImageSearch(typeName, entities, v, container) {
 			var entity = entities[j];
 			var name = extractString(entity, [ "rdfs:label", "name" ], "en");
 			
-			var cnt = jQuery('<div id="imgCnt_' + j + '"></div>');
+			var cnt = v.jQuery('<div id="imgCnt_' + j + '"></div>');
 			cnt.append("<p>" + name + "</p>");
 			cnt.appendTo(container);
 			cnt.vieImageSearch({
@@ -126,10 +122,10 @@ function performDbpediaDepictionSearch(typeName, entities, v, container) {
 			if (imgUrl) {
 				
 				var name =  extractString(entity, [ "rdfs:label", "name" ], "en");
-				var cnt = jQuery('<div id="imgCnt_' + j + '"></div>');
+				var cnt = v.jQuery('<div id="imgCnt_' + j + '"></div>');
 				cnt.append('<p>'+name+'</p>');
 				cnt.appendTo(container);
-				var imageLink = jQuery('<a class="view-vieImageSearch-image" href="'+imgUrl+'" target="_blank"><img src="'+imgUrl+'" style="width:'+picSize+'px; height:auto;" /></a>');
+				var imageLink = v.jQuery('<a class="view-vieImageSearch-image" href="'+imgUrl+'" target="_blank"><img src="'+imgUrl+'" style="width:'+picSize+'px; height:auto;" /></a>');
 				imageLink.appendTo(cnt);
 			}
 		}
@@ -152,10 +148,10 @@ function getDepiction(entity, picSize) {
 	}
 }
 
-function openResultDialog(results, element) {
+function openResultDialog(results, element, v) {
 
-	results.appendTo(jQuery(element).parent());
-	var parentElement = jQuery(element).parent();
+	results.appendTo(v.jQuery(element).parent());
+	var parentElement = v.jQuery(element).parent();
 	var left = parentElement.offset().left + parentElement.outerWidth() + 20;
 	var top = parentElement.offset().top;
 

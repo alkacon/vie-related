@@ -5,14 +5,14 @@ function extractString(entity, attrs, lang) {
 			var attr = possibleAttrs[p];
 			if (entity.has(attr)) {
 				var value = entity.get(attr);
-				if (jQuery.isArray(value) && value.length > 0) {
+				if (entity.vie.jQuery.isArray(value) && value.length > 0) {
 					for ( var i = 0; i < value.length; i++) {
 						if (value[i].indexOf('@' + lang) > -1) {
 							value = value[i];
 							break;
 						}
 					}
-					if (jQuery.isArray(value))
+					if (entity.vie.jQuery.isArray(value))
 						// if it is still an array, your language was not found
 						value = undefined;
 				}
@@ -24,7 +24,7 @@ function extractString(entity, attrs, lang) {
 	return undefined;
 }
 
-function getAdditionalRules(service) {
+function getAdditionalRules(vie) {
  	mapping = {
 		'Work'              : 'CreativeWork',
 		'Film'              : 'Movie',
@@ -52,23 +52,23 @@ function getAdditionalRules(service) {
 			
 	var additionalRules = new Array();
 	for ( var key in mapping) {
-		additionalRules.push(createSimpleRule(key, mapping[key], service));
+		additionalRules.push(createSimpleRule(key, mapping[key], vie));
 	}
 	return additionalRules;
 }
 
-function createSimpleRule(key, value, service) {
+function createSimpleRule(key, value, vie) {
 	var rule = {
 			'left' : [ '?subject a dbpedia:' + key, '?subject rdfs:label ?label' ],
 			'right' : function(ns) {
 				return function() {
-					return [ jQuery.rdf.triple(this.subject.toString(), 'a', '<' + ns.base() + value + '>', {
+					return [ vie.jQuery.rdf.triple(this.subject.toString(), 'a', '<' + ns.base() + value + '>', {
 						namespaces : ns.toObj()
-					}), jQuery.rdf.triple(this.subject.toString(), '<' + ns.base() + 'name>', this.label.toString(), {
+					}), vie.jQuery.rdf.triple(this.subject.toString(), '<' + ns.base() + 'name>', this.label.toString(), {
 						namespaces : ns.toObj()
 					}) ];
 				};
-			}(service.vie.namespaces)
+			}(vie.namespaces)
 		};
 	return rule;
 }
