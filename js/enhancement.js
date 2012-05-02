@@ -14,8 +14,11 @@ function enhance(con, element) {
 
 function onLoadSuccess(v, con, element) {
 
-    console.log("Start analyzing");
-	var stanbol = new v.StanbolService({ url : [ "http://dev.iks-project.eu:8080" ] });
+	var stanbol = new v.StanbolService(
+	        { 
+	            // url : [ "http://dev.iks-project.eu:8080" ]
+	            url : [ "http://localhost:8085" ]
+	        });
 	v.use(stanbol);
 	stanbol.rules = v.jQuery.merge(stanbol.rules, getAdditionalRules(stanbol.vie));
 	v.analyze({ element : v.jQuery(con) }).using('stanbol').execute().done(
@@ -29,7 +32,7 @@ function onLoadSuccess(v, con, element) {
 					orgas : [],
 					events : [],
 					movies : [],
-					species : [],
+					plants : [],
 					others : []
 				};
 
@@ -49,9 +52,8 @@ function onLoadSuccess(v, con, element) {
 						goods.events.push(entity);
 					} else if (entity.isof("Movie")) {
 						goods.movies.push(entity);
-					} else if (entity.isof("dbpedia:Species")) {
-						goods.species.push(entity);
-						console.log("dbpedia:Species found");
+                    } else if (isOf(entity, "<http://dbpedia.org/ontology/Plant>")) {
+                        goods.plants.push(entity);
 					} else if (entity.isof("Thing")) {
 						goods.others.push(entity);
 					}
@@ -64,7 +66,7 @@ function onLoadSuccess(v, con, element) {
 					&& goods.orgas.length == 0 
 					&& goods.events.length == 0 
 					&& goods.movies.length == 0
-					&& goods.species.length == 0) {
+					&& goods.plants.length == 0) {
 					container.append("<p><b>No known entities found.</b></p>");
 				} else {
 					container.empty();
@@ -74,7 +76,7 @@ function onLoadSuccess(v, con, element) {
 					performGoogleFlickrImageSearch("Organizations", goods.orgas, this.vie, container);
 					performGoogleFlickrImageSearch("Events", goods.events, this.vie, container);
 					performGoogleFlickrImageSearch("Movies", goods.movies, this.vie, container);
-					performDbpediaDepictionSearch("Species", goods.species, this.vie, container);
+					performDbpediaDepictionSearch("Plants found", goods.plants, this.vie, container);
 					openResultDialog(container, element, v);
 				}
 		});
@@ -82,12 +84,12 @@ function onLoadSuccess(v, con, element) {
 
 function performGoogleFlickrImageSearch(typeName, entities, v, container) {
 
+    logEntities(typeName, entities);
 	if (entities.length > 0) {
 		container.append("<p><b>" + typeName + ":</b></p>");
 		for ( var j = 0; j < entities.length; j++) {
 			var entity = entities[j];
-			var name = extractString(entity, [ "rdfs:label", "name" ], "en");
-			
+			var name = VIE.Util.getPreferredLangForPreferredProperty(entities[j], new Array("rdfs:label"), prefLanguages );
 			var cnt = v.jQuery('<div id="imgCnt_' + j + '"></div>');
 			cnt.append("<p>" + name + "</p>");
 			cnt.appendTo(container);
@@ -113,39 +115,23 @@ function performGoogleFlickrImageSearch(typeName, entities, v, container) {
 
 function performDbpediaDepictionSearch(typeName, entities, v, container) {
 
+    logEntities(typeName, entities);
 	if (entities.length > 0) {
-	var picSize = 190;
+	var picSize = 174;
 		container.append("<p><b>" + typeName + ":</b></p>");
 		for ( var j = 0; j < entities.length; j++) {
 			var entity = entities[j];
 			var imgUrl = getDepiction(entity, picSize);
 			if (imgUrl) {
-				
-				var name =  extractString(entity, [ "rdfs:label", "name" ], "en");
+			    var name = VIE.Util.getPreferredLangForPreferredProperty(entities[j], new Array("rdfs:label"), prefLanguages);
 				var cnt = v.jQuery('<div id="imgCnt_' + j + '"></div>');
-				cnt.append('<p>'+name+'</p>');
+				cnt.append("<p>"+name+"</p>");
 				cnt.appendTo(container);
-				var imageLink = v.jQuery('<a class="view-vieImageSearch-image" href="'+imgUrl+'" target="_blank"><img src="'+imgUrl+'" style="width:'+picSize+'px; height:auto;" /></a>');
+				var imageLink = v.jQuery('<a class="view-vieImageSearch-image" href="'+imgUrl+'" target="_blank"><img src="'+imgUrl+'" style="width:'+picSize+'px; height:auto; margin: 0px;" /></a>');
 				imageLink.appendTo(cnt);
 			}
 		}
 	}	
-}
-
-function getDepiction(entity, picSize) {
-
-	var depictionUrl, field, fieldValue, preferredFields;
-	preferredFields = [ "foaf:depiction", "schema:thumbnail" ];
-	field = _(preferredFields).detect(function(field) {
-		if (entity.get(field)) return true;
-	});
-	if (field && (fieldValue = _([entity.get(field)]).flatten())) {
-		depictionUrl = _(fieldValue).detect(function(uri) {
-			uri = (typeof uri.getSubject === "function" ? uri.getSubject() : void 0) || uri;
-			if (uri.indexOf("thumb") !== -1) return true;
-		}).replace(/[0-9]{2..3}px/, "" + picSize + "px");
-		return depictionUrl.replace(/^<|>$/g, '');
-	}
 }
 
 function openResultDialog(results, element, v) {

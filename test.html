@@ -3,7 +3,7 @@
 <head>
 	<title>IKS related search</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<script type="text/javascript" src="lib/vie-ALL-2.0.0_20120427160044.debug.js"></script>
+	<script type="text/javascript" src="lib/vie-ALL-2.1.0alpha1_20120502153649.debug.js"></script>
 	<script type="text/javascript" src="lib/jquery.rdfquery.min.js"></script>
 	<script type="text/javascript" src="js/utils.js"></script>
 </head>
@@ -48,7 +48,6 @@ v.loadSchema("http://schema.rdfs.org/all.json", {
 	}
 });
 	
-
 function onLoadSuccess(v) {
 
     console.log("Start analyzing");
@@ -66,7 +65,7 @@ function onLoadSuccess(v) {
                     orgas : [],
                     events : [],
                     movies : [],
-                    species : [],
+                    plants : [],
                     others : []
                 };
 
@@ -86,14 +85,12 @@ function onLoadSuccess(v) {
                         goods.events.push(entity);
                     } else if (entity.isof("Movie")) {
                         goods.movies.push(entity);
-                    } else if (entity.isof("dbpedia:Species")) {
-                        goods.species.push(entity);
-                        console.log("dbpedia:Species found");
-                    } else if (entity.isof("Thing")) {
-                        goods.others.push(entity);
-                    }
+                    } else if (isOf(entity, "<http://dbpedia.org/ontology/Plant>")) {
+                        goods.plants.push(entity);
+					} else if (entity.isof("Thing")) {
+						goods.others.push(entity);
+					}
                 });
-                
                 
                 if (goods.persons.length == 0
                     && goods.cities.length == 0 
@@ -101,7 +98,7 @@ function onLoadSuccess(v) {
                     && goods.orgas.length == 0 
                     && goods.events.length == 0 
                     && goods.movies.length == 0
-                    && goods.species.length == 0) {
+                    && goods.plants.length == 0) {
                 } else {
                     logEntities("Persons", goods.persons);
                     logEntities("Cities", goods.cities);
@@ -109,23 +106,10 @@ function onLoadSuccess(v) {
                     logEntities("Organizations", goods.orgas);
                     logEntities("Events", goods.events);
                     logEntities("Movies", goods.movies);
+                    logEntities("Movies", goods.movies);
                 }
         });
 }
-    
-function logEntities(typeName, entities) {
-
-    if (entities.length > 0) {
-    	console.log(' ');
-        console.log('### Type: ' + typeName + ' ###');
-        for (var j = 0; j < entities.length; j++) {
-            var entity = entities[j];
-            var name = extractString(entity, [ 'rdfs:label', 'name' ], 'en');
-            console.log(name);
-        }
-    }
-}
 </script>
-
 </body>
 </html>

@@ -53,14 +53,18 @@ body {
 }
 
 #image_container {
-	margin-top: 20px;
+	margin-top: 10px;
 }
 
 #image_container a img {
 	box-shadow: 0px 0px 10px #555;
-	margin: 1em 1em;
-	width: 6em;
-	height: 6em;
+	width: 174px; 
+	height: auto; 
+	margin: 0px 0px 10px 0px;
+}
+
+#image_container div p {
+	margin: 0px 0px 5px 0px;
 }
 
 h1 {

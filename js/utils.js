@@ -1,27 +1,38 @@
-function extractString(entity, attrs, lang) {
-	if (entity && typeof entity !== "string") {
-		var possibleAttrs = (_.isArray(attrs)) ? attrs : [ attrs ];
-		for ( var p = 0; p < possibleAttrs.length; p++) {
-			var attr = possibleAttrs[p];
-			if (entity.has(attr)) {
-				var value = entity.get(attr);
-				if (entity.vie.jQuery.isArray(value) && value.length > 0) {
-					for ( var i = 0; i < value.length; i++) {
-						if (value[i].indexOf('@' + lang) > -1) {
-							value = value[i];
-							break;
-						}
-					}
-					if (entity.vie.jQuery.isArray(value))
-						// if it is still an array, your language was not found
-						value = undefined;
-				}
-				value = (value) ? value.replace(/"/g, "").replace(/@[a-z]+/, '').trim() : value;
-				return value;
-			}
-		}
-	}
-	return undefined;
+var prefLanguages = [ "en", "de" ];
+
+function isOf(entity, type) {
+    for (i = 0; i < entity.get("@type").length; i++) {
+        var eType = entity.get("@type")[i];
+        if (eType.id == type) {
+            return true;
+        }
+    }
+}
+
+function logEntities(typeName, entities) {
+    if (entities.length > 0) {
+        console.log('');
+        console.log('### Type: ' + typeName + ' ###');
+        for (var j = 0; j < entities.length; j++) {
+            console.log(VIE.Util.getPreferredLangForPreferredProperty(entities[j], [ "rdfs:label" ], prefLanguages));
+        }
+    }
+}
+
+function getDepiction(entity, picSize) {
+
+    var depictionUrl, field, fieldValue, preferredFields;
+    preferredFields = [ "foaf:depiction", "schema:thumbnail" ];
+    field = _(preferredFields).detect(function(field) {
+        if (entity.get(field)) return true;
+    });
+    if (field && (fieldValue = _([entity.get(field)]).flatten())) {
+        depictionUrl = _(fieldValue).detect(function(uri) {
+            uri = (typeof uri.getSubject === "function" ? uri.getSubject() : void 0) || uri;
+            if (uri.indexOf("thumb") !== -1) return true;
+        }).replace(/[0-9]{2..3}px/, "" + picSize + "px");
+        return depictionUrl.replace(/^<|>$/g, '');
+    }
 }
 
 function getAdditionalRules(vie) {
