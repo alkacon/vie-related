@@ -1,39 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>IKS related search</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<!-- jQuery and vie deps -->
-<script type="text/javascript" src="lib/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="lib/jquery.rdfquery.min.js"></script>
-<script type="text/javascript" src="lib/schema.json"></script>
-<script type="text/javascript" src="lib/underscore.min.js"></script>
-<script type="text/javascript" src="lib/backbone.min.js"></script>
-<script type="text/javascript" src="lib/vie-latest.debug.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        var vie = new VIE();
-        vie.use(new vie.StanbolService({
-            url : "http://dev.iks-project.eu/stanbolfull"
-        }));
-        vie.analyze({
-            element : jQuery('#content')
-        }).using('stanbol').execute().done(function(entities) {
-            _.each(entities, function(entity) {
-                if (entity.isof("dbpedia:Person")) {
-                    console.log("Person: ");
-                    console.log(entity);
-                } else if (entity.isof("dbpedia:Company")) {
-                    console.log("Company: ");
-                    console.log(entity);
-                } else if (entity.isof("dbpedia:Place")) {
-                    console.log("Place: ");
-                    console.log(entity);
-                }
-            });
-        });
-    });
-</script>
+	<title>IKS related search</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<script type="text/javascript" src="lib/vie-ALL-2.0.0_20120427160044.debug.js"></script>
+	<script type="text/javascript" src="lib/jquery.rdfquery.min.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
 </head>
 <body>
 	<div id="content">
@@ -60,5 +32,100 @@
 			powerful than the previous version. Cook took over as CEO after Jobs,
 			who has been battling health problems, resigned in August.</p>
 	</div>
+
+<script type="text/javascript">
+v = new VIE();
+v.namespaces.base("http://schema.org/");
+console.log("Start loading schema.org");
+v.loadSchema("http://schema.rdfs.org/all.json", {
+	baseNS : "http://schema.org/",
+	success : function() {
+	    console.log("schema.org loaded successfully");
+		onLoadSuccess(v);
+	},
+	error : function(msg) {
+		console.warn(msg);
+	}
+});
+	
+
+function onLoadSuccess(v) {
+
+    console.log("Start analyzing");
+    var stanbol = new v.StanbolService({ url : [ "http://dev.iks-project.eu:8080" ] });
+    v.use(stanbol);
+    stanbol.rules = v.jQuery.merge(stanbol.rules, getAdditionalRules(stanbol.vie));
+    v.analyze({ element : v.jQuery('#content') }).using('stanbol').execute().done(
+
+            function(entities) {
+                
+                var goods = {
+                    persons : [],
+                    cities : [],
+                    places : [],
+                    orgas : [],
+                    events : [],
+                    movies : [],
+                    species : [],
+                    others : []
+                };
+
+                _.each(entities, function(entity) {
+                    if (!entity.has('http://www.w3.org/2000/01/rdf-schema#label')) {
+                        return;
+                    }
+                    if (entity.isof("Person")) {
+                        goods.persons.push(entity);
+                    } else if (entity.isof("City")) {
+                        goods.cities.push(entity);
+                    } else if (entity.isof("Place")) {
+                        goods.places.push(entity);
+                    } else if (entity.isof("Organization")) {
+                        goods.orgas.push(entity);
+                    } else if (entity.isof("Event")) {
+                        goods.events.push(entity);
+                    } else if (entity.isof("Movie")) {
+                        goods.movies.push(entity);
+                    } else if (entity.isof("dbpedia:Species")) {
+                        goods.species.push(entity);
+                        console.log("dbpedia:Species found");
+                    } else if (entity.isof("Thing")) {
+                        goods.others.push(entity);
+                    }
+                });
+                
+                
+                if (goods.persons.length == 0
+                    && goods.cities.length == 0 
+                    && goods.places.length == 0
+                    && goods.orgas.length == 0 
+                    && goods.events.length == 0 
+                    && goods.movies.length == 0
+                    && goods.species.length == 0) {
+                } else {
+                    logEntities("Persons", goods.persons);
+                    logEntities("Cities", goods.cities);
+                    logEntities("Places", goods.places);
+                    logEntities("Organizations", goods.orgas);
+                    logEntities("Events", goods.events);
+                    logEntities("Movies", goods.movies);
+                }
+        });
+}
+    
+function logEntities(typeName, entities) {
+
+    if (entities.length > 0) {
+    	console.log(' ');
+        console.log('### Type: ' + typeName + ' ###');
+        for (var j = 0; j < entities.length; j++) {
+            var entity = entities[j];
+            var name = extractString(entity, [ 'rdfs:label', 'name' ], 'en');
+            console.log(name);
+        }
+    }
+}
+</script>
+
 </body>
 </html>
