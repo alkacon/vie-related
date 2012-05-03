@@ -16,11 +16,11 @@ function onLoadSuccess(v, con, element) {
 
 	var stanbol = new v.StanbolService(
 	        { 
-	            // url : [ "http://dev.iks-project.eu:8080" ]
-	            url : [ "http://localhost:8085" ]
+	            url : [ "http://dev.iks-project.eu:8080" ]
+	            // url : [ "http://localhost:8085" ]
 	        });
 	v.use(stanbol);
-	stanbol.rules = v.jQuery.merge(stanbol.rules, getAdditionalRules(stanbol.vie));
+	stanbol.rules = v.jQuery.merge(stanbol.rules, VIE.Util.getAdditionalRules(v));
 	v.analyze({ element : v.jQuery(con) }).using('stanbol').execute().done(
 
 			function(entities) {
@@ -121,7 +121,7 @@ function performDbpediaDepictionSearch(typeName, entities, v, container) {
 		container.append("<p><b>" + typeName + ":</b></p>");
 		for ( var j = 0; j < entities.length; j++) {
 			var entity = entities[j];
-			var imgUrl = getDepiction(entity, picSize);
+			var imgUrl = VIE.Util.getDepiction(entity, picSize);
 			if (imgUrl) {
 			    var name = VIE.Util.getPreferredLangForPreferredProperty(entities[j], new Array("rdfs:label"), prefLanguages);
 				var cnt = v.jQuery('<div id="imgCnt_' + j + '"></div>');
