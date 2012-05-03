@@ -16,8 +16,8 @@ function onLoadSuccess(v, con, element) {
 
 	var stanbol = new v.StanbolService(
 	        { 
-	            url : [ "http://dev.iks-project.eu:8080" ]
-	            // url : [ "http://localhost:8085" ]
+	            // url : [ "http://dev.iks-project.eu:8080" ]
+	            url : [ "http://localhost:8085" ]
 	        });
 	v.use(stanbol);
 	stanbol.rules = v.jQuery.merge(stanbol.rules, VIE.Util.getAdditionalRules(v));
@@ -157,4 +157,25 @@ function openResultDialog(results, element, v) {
 		}
 	});
 	results.dialog('open');
+}
+
+var prefLanguages = [ "en", "de" ];
+
+function isOf(entity, type) {
+    for (i = 0; i < entity.get("@type").length; i++) {
+        var eType = entity.get("@type")[i];
+        if (eType.id == type) {
+            return true;
+        }
+    }
+}
+
+function logEntities(typeName, entities) {
+    if (entities.length > 0) {
+        console.log('');
+        console.log('### Type: ' + typeName + ' ###');
+        for (var j = 0; j < entities.length; j++) {
+            console.log(VIE.Util.getPreferredLangForPreferredProperty(entities[j], [ "rdfs:label" ], prefLanguages));
+        }
+    }
 }
