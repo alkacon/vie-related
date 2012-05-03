@@ -16,8 +16,8 @@ function onLoadSuccess(v, con, element) {
 
 	var stanbol = new v.StanbolService(
 	        { 
-	            // url : [ "http://dev.iks-project.eu:8080" ]
-	            url : [ "http://localhost:8085" ]
+	            url : [ "http://dev.iks-project.eu:8080" ]
+	            // url : [ "http://localhost:8085" ]
 	        });
 	v.use(stanbol);
 	stanbol.rules = v.jQuery.merge(stanbol.rules, VIE.Util.getAdditionalRules(v));
