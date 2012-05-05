@@ -32,6 +32,6 @@ DE-50996 Cologne, Germany
 - [Directions to the office](http://www.alkacon.com/en/company/contact/directions.html)
 - [Map of the office location](http://www.alkacon.com/en/company/contact/map.html)
 
-----------
+-----------
 
 **Please note**: This readme file was written to the best of knowledge. If there are any mistakes, please don't hesitate to use our [contact form](http://www.alkacon.com/en/company/contact/form.html).
