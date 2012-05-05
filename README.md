@@ -10,7 +10,7 @@
 
 ### Related links
 
-- [acacia project on GitHub](https://github.com/alkacon/acacia)
+- [Acacia editor project on GitHub](https://github.com/alkacon/acacia)
 - [VIE-GWT project on GitHub](https://github.com/alkacon/vie-gwt)
 - [VIE project website](http://viejs.org/)
 - [Apache Stanbol project website](http://incubator.apache.org/stanbol/)
