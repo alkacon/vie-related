@@ -24,7 +24,7 @@
 
 <b>Our office address:</b>  
 Alkacon Software GmbH - The OpenCms Experts  
-An der Wachsfabrik 13   
+An der Wachsfabrik 13
 DE-50996 Cologne, Germany
 
 - [http://www.alkacon.com/](http://www.alkacon.com/)
