@@ -1,12 +1,14 @@
 `VIE-RELATED v0.9 (2012) | Powered by:`
 
-
 <img src="http://www.alkacon.com/export/system/modules/org.opencms.website.template/resources/img/logo/logo_alkacon.gif" />
 <img src="http://www.opencms.org/export/system/modules/org.opencms.website.template/resources/img/logo/logo_opencms.gif" />
 <img src="http://www.alkacon.com/system/modules/org.opencms.website.template/resources/img/logo/iks-logo.png" />
 <img src="http://www.alkacon.com/system/modules/org.opencms.website.template/resources/img/logo/vie_logo.png" />
 
-## [Goto the project website / demo here ...](http://alkacon.github.com/vie-related/)
+# [VIE-RELATED DEMO](http://alkacon.github.com/vie-related/)
+
+
+----------
 
 ### Related links
 
