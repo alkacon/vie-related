@@ -793,11 +793,11 @@ header p {
 
 section {
   width: 725px;
-  padding: 30px 30px 50px 30px;
+  padding: 30px 30px 10px 30px;
   margin: 20px 0;
   margin-top: 190px;
   position: relative;
-  background: #fbfbfb;
+  background: #fff;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   -o-border-radius: 3px;
