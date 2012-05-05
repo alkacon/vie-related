@@ -1,12 +1,14 @@
 `VIE-RELATED v0.9 (2012) | Powered by:`
+
+
 <img src="http://www.alkacon.com/export/system/modules/org.opencms.website.template/resources/img/logo/logo_alkacon.gif" />
 <img src="http://www.opencms.org/export/system/modules/org.opencms.website.template/resources/img/logo/logo_opencms.gif" />
 <img src="http://www.alkacon.com/system/modules/org.opencms.website.template/resources/img/logo/iks-logo.png" />
 <img src="http://www.alkacon.com/system/modules/org.opencms.website.template/resources/img/logo/vie_logo.png" />
 
-[Goto webpage / demo here ...](http://alkacon.github.com/vie-related/)
+## [Goto the project website / demo here ...](http://alkacon.github.com/vie-related/)
 
-## Related links
+### Related links
 
 - [acacia project on GitHub](https://github.com/alkacon/acacia)
 - [VIE-GWT project on GitHub](https://github.com/alkacon/vie-gwt)
@@ -14,7 +16,7 @@
 - [Apache Stanbol project website](http://incubator.apache.org/stanbol/)
 
 
-## Contact: Alkacon Software GmbH - The OpenCms Experts
+### Contact: Alkacon Software GmbH - The OpenCms Experts
 
 <b>Please use our [contact form](http://www.alkacon.com/en/company/contact/form.html) to contact us directly.</b>
 
