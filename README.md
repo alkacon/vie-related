@@ -18,9 +18,7 @@
 
 ### Contact: Alkacon Software GmbH - The OpenCms Experts
 
-<b>Please use our [contact form](http://www.alkacon.com/en/company/contact/form.html) to contact us directly.</b>
-
-Do not send us an email for the first contact, since we have problems with serious amounts of spam.
+<b>Please use our [contact form](http://www.alkacon.com/en/company/contact/form.html) to contact us directly.</b> Do not send us an email for the first contact, since we have problems with serious amounts of spam.
 
 <b>Our office address:</b>  
 Alkacon Software GmbH - The OpenCms Experts  
