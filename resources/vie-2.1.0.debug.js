@@ -952,7 +952,7 @@ VIE.Util = {
     a score. It returns the value with the best score.
     */
     getPreferredLangForPreferredProperty: function(entity, preferredFields, preferredLanguages) {
-      var l, labelArr, lang, p, property, resArr, valueArr, _len, _len2,
+      var l, labelArr, lang, p = 0, property, resArr, valueArr, _len, _len2,
         _this = this;
       resArr = [];
       /* Try to find a label in the preferred language
@@ -984,7 +984,7 @@ VIE.Util = {
               */
               if (labelLang) {
                 if (labelLang === lang) {
-                  score += l;
+                  score += 1;
                 } else {
                   score += 20;
                 }
