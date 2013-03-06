@@ -952,7 +952,7 @@ VIE.Util = {
     a score. It returns the value with the best score.
     */
     getPreferredLangForPreferredProperty: function(entity, preferredFields, preferredLanguages) {
-      var l, labelArr, lang, p, property, resArr, valueArr, _len, _len2,
+      var l, labelArr, lang, p = 0, property, resArr, valueArr, _len, _len2,
         _this = this;
       resArr = [];
       /* Try to find a label in the preferred language
@@ -984,7 +984,7 @@ VIE.Util = {
               */
               if (labelLang) {
                 if (labelLang === lang) {
-                  score += l;
+                  score += 1;
                 } else {
                   score += 20;
                 }
@@ -2837,10 +2837,10 @@ VIE.prototype.Types = function () {
 // helps first of all to list all attributes of an entity type, but furthermore fully supports
 // inheritance of attributes from the type-class to inherit from.
 if (VIE.prototype.Attribute) {
-	throw new Error("ERROR: VIE.Attribute is already defined. Please check your VIE installation!");
+    throw new Error("ERROR: VIE.Attribute is already defined. Please check your VIE installation!");
 }
 if (VIE.prototype.Attributes) {
-	throw new Error("ERROR: VIE.Attributes is already defined. Please check your VIE installation!");
+    throw new Error("ERROR: VIE.Attributes is already defined. Please check your VIE installation!");
 }
 
 // ### VIE.Attribute(id, range, domain, minCount, maxCount, metadata)
