@@ -1,59 +1,10 @@
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, font, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-dl, dt, dd, ol,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  font-weight: inherit;
-  font-style: inherit;
-  font-size: 100%;
-  font-family: inherit;
-  vertical-align: baseline;
-}
-body {
-  line-height: 1;
-  color: black;
-  background: white;
-}
-a img {
-  border: none;
-}
-
-html {
-  background: #eeeeee;
-}
-
-body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.4em;
-    background: #eeeeee;
-    color: #333333;
-}
-
 span.mceIcon.mce_imageSearchButton {
 	background:url('search_icon.gif');
 }
 
-#wrapper {
-  width: 450px; 
-  margin: 40px auto;
-  background: white;
-  padding: 25px;
-  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
-  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
-  box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
-}
-
 #content {
 	width: 100%;
+	height: 275px;
 }
 
 #image_container {
@@ -70,59 +21,6 @@ span.mceIcon.mce_imageSearchButton {
 #image_container div p {
 	margin: 0px 0px 5px 0px;
 }
-
-h1 {
-    font-size: 36px;
-    font-weight: bold;
-    text-align: center;
-    padding: 20px 0 30px 0;
-    line-height: 1;
-}
-
-h2 {
-    font-size: 30px;
-    font-weight: bold;
-    text-align: center;
-    padding: 0px 0 20px 0;
-    line-height: 1;
-}
-
-h3 {
-    font-size: 26px;
-    font-weight: bold;
-    text-align: center;
-    padding: 0px 0 20px 0;
-    line-height: 1;
-}
-
-#wrapper article {
-  margin-bottom: 20px;
-  border-bottom: 1px dotted grey;
-  text-align:justify;
-}
-
-#wrapper .from, #wrapper .from a {
-  font-size: 11px;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: grey;
-  text-align: center;
-}
-
-.copyright, .copyright a, .tellmemore a, .goback a {
-  font-size: 11px;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: grey;
-  text-align: center;
-}
-
-[about] {
- text-shadow: 0 0 0.2em #87F, 0 0 0.2em #87F;
- cursor: pointer;
-}
-
-[about]:hover {
- text-shadow: 0 0 0.2em #8F7, 0 0 0.2em #8F7;
- cursor: pointer;
+.mceLayout {
+	margin-bottom: 20px !important;
 }
