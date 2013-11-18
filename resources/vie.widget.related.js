@@ -15,7 +15,7 @@ function onLoadSuccess(v, con, element) {
 
 	var stanbol = new v.StanbolService(
 	        { 
-	            url : [ "http://dev.iks-project.eu:8081" ]
+	            url : [ "http://demo.iks-project.eu/stanbolfull" ]
 	            // url : [ "http://localhost:8085" ]
 	        });
 	v.use(stanbol);
